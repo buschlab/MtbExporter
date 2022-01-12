@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mtbexporter:
+    restart: unless-stopped
+    build: ./
+    image: ghcr.io/buschlab/mtbexporter:latest
+    volumes:
+      - "./settings.yaml:/app/settings.yaml"
+
+    networks:
+     - mtbexporter_net
+
+networks:
+  mtbexporter_net:
