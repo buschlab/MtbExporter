@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.util.Timer;
 
 import de.uzl.lied.mtbexporter.jobs.CheckFhirServer;
-import de.uzl.lied.mtbexporter.jobs.mdr.centraxx.CxxMdrLogin;
 import de.uzl.lied.mtbexporter.settings.ConfigurationLoader;
-import de.uzl.lied.mtbexporter.settings.Mdr;
 import de.uzl.lied.mtbexporter.settings.Settings;
 
 public final class MtbExporter {
@@ -26,12 +24,6 @@ public final class MtbExporter {
 
         ConfigurationLoader configLoader = new ConfigurationLoader();
         configLoader.loadConfiguration(settingsYaml, Settings.class);
-
-        // for (Mdr m : Settings.getMdr()) {
-        //     if(m.getCxx() != null) {
-        //         CxxMdrLogin.login(m.getCxx());
-        //     }
-        // }
 
         Timer t = new Timer();
         CheckFhirServer checkFhirServer = new CheckFhirServer();
