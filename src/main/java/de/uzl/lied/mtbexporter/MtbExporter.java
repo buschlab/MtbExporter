@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
 
+import org.tinylog.Logger;
+
 import de.uzl.lied.mtbexporter.jobs.CheckFhirServer;
 import de.uzl.lied.mtbexporter.settings.ConfigurationLoader;
 import de.uzl.lied.mtbexporter.settings.Settings;
@@ -29,6 +31,6 @@ public final class MtbExporter {
         CheckFhirServer checkFhirServer = new CheckFhirServer();
         t.scheduleAtFixedRate(checkFhirServer, 0, Settings.getCronIntervall());
 
-        System.out.println("MtbExporter started!");
+        Logger.info("MtbExporter started!");
     }
 }

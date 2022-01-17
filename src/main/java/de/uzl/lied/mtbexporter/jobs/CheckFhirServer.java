@@ -18,6 +18,7 @@ import com.google.common.io.ByteStreams;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DiagnosticReport;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.tinylog.Logger;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.api.Include;
@@ -54,7 +55,7 @@ public class CheckFhirServer extends TimerTask {
         Date d0 = new Date(state);
         Date d = new Date();
 
-        System.out.println("Checking for new data on FHIR server!");
+        Logger.debug("Checking for new data on FHIR server!");
 
         Bundle b = (Bundle) cdrClient.search().forResource(DiagnosticReport.class)
                 .where(new TokenClientParam("status").exactly().code("final"))
@@ -67,16 +68,16 @@ public class CheckFhirServer extends TimerTask {
                 .execute();
 
         if (b.hasEntry()) {
-            System.out.println("Found " + b.getTotal() + " new reports!");
+            Logger.info("Found " + b.getTotal() + " new reports!");
             List<Befund> befunde = new ArrayList<Befund>();
             List<BefTherapieoptionen> befTherapieoptionen = new ArrayList<BefTherapieoptionen>();
             for (BundleEntryComponent entry : b.getEntry()) {
                 if (entry.getResource() instanceof DiagnosticReport) {
                     DiagnosticReport report = (DiagnosticReport) entry.getResource();
-                    System.out.println("Starting proceccing of " + report.getId());
+                    Logger.debug("Starting proceccing of " + report.getId());
                     befunde.add(CsvExporter.exportDiagnosticReport(report, befTherapieoptionen));
                 } else {
-                    System.out.println("Skipping resource of type " + entry.getResource().getResourceType().toString());
+                    Logger.warn("Skipping resource of type " + entry.getResource().getResourceType().toString());
                 }
             }
 
@@ -96,14 +97,14 @@ public class CheckFhirServer extends TimerTask {
                 FileOutputStream fos = new FileOutputStream(".state");
                 fos.write(String.valueOf(d.getTime()).getBytes());
                 fos.close();
-                System.out.println("Finished processing of " + b.getTotal() + " reports.");
+                Logger.info("Finished processing of " + b.getTotal() + " reports.");
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
         } else {
-            System.out.println("No new data on FHIR server.");
+            Logger.debug("No new data on FHIR server.");
         }
     }
 

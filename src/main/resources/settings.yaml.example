@@ -1,71 +1,8 @@
-portalUrl: http://cbioportal:8080
-portalInfo: /cbioportal/portalinfo
-#importScriptPath: /opt/cbioportal/core/src/main/scripts/importer/
-inputFolders:
-  -
-    source: input/
-    target: processed/
+outputFolder: output
 cronIntervall: 60000
-studyFolder: study/
-studyTemplate: template/
-mainStudyId: MTB
-urlBase: http://localhost:8080/reports
-resourceFolder: reports/
-overrideWarnings: true
-restartAfterImport: true
-#restartCommand: systemctl restart cbioportal
-ensemblUrl: https://grch37.rest.ensembl.org
 fhir:
   clinicalDataServerUrl: http://localhost:8080/fhir
-  terminology:
-    serverUrl: https://ontoserver.imi.uni-luebeck.de/fhir/
-    icdO3Url: http://hl7.org/fhir/sid/icd-o-3
-    oncoTreeUrl: http://oncotree.mskcc.org/fhir/ValueSet/snapshot
-    icdO3ToOncoTreeConceptMapUrl: https://imi.uni-luebeck.de/fhir/ConceptMap/ICD-O_to_ONCOTREE
-    icdO3ToOncoTreeConceptMapId: icd-o-to-oncotree
 regex:
     -
       cbio: "-"
       his: /
-mappingMethod: samply
-mdr:
-   - samply:
-      url: https://mdr.itcr.uni-luebeck.de/v2/api/mdr/
-      sourceNamespace: orbis
-      targetNamespace: cbioportal
-      language: de
-      mappingEnabled: true
-  #  - cxx:
-  #     url: https://mdr.imi.uni-luebeck.de/centraxx-mdr-server
-  #     username: username
-  #     password: password
-  #     basicUsername: basicUser
-  #     basicPassword: basicUUID
-  #     mappingEnabled: true
-docker:
-  compose:
-    workdir: /home/user/git/MIRACUM-cbioportal
-    serviceName: cbioportal
-  studyFolder:  /study
-  #imageName: ghcr.io/buschlab/cbioportal:latest
-  #containerName: cbioportal_container
-  #networkName: miracum-cbioportal_cbioportal_net
-  #propertiesFile: /Users/nreimer/git/MIRACUM-cbioportal/config/portal.properties
-  #portalInfoVolume: miracum-cbioportal_cbioportal_portalinfo
-mapping:
-  -
-    source: orbis_l-tumorboard-molekular
-    target: cbioportal_patient
-    modelClass: de.uzl.lied.mtbimporter.model.ClinicalPatient
-  -
-    source: orbis_l-tumorboard-molekular-vorbef-molekula
-    target: cbioportal_sample
-    modelClass: de.uzl.lied.mtbimporter.model.ClinicalSample
-  -
-    source: orbis_l-tumorboard-molekular-diagnosen-vorst
-    target: cbioportal_timeline-diagnostic
-    modelClass: de.uzl.lied.mtbimporter.model.Timeline
-  -
-    source: orbis_l-tumorboard-molekular-therapielinien
-    target: cbioportal_timeline-treatment
-    modelClass: de.uzl.lied.mtbimporter.model.TimelineTreatment
