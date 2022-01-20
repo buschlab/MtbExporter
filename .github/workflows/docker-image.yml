@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{} secrets.DOCKER_URL }/${{ secrets.REPO }}/mtbexporter:latest --label maintainer="Niklas Reimer <${{ secrets.EMAIL }}>"
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_URL }}/${{ secrets.REPO }}/mtbexporter:latest --label maintainer="Niklas Reimer <${{ secrets.EMAIL }}>"
     - name: Login to Docker registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ secrets.USER }} --password-stdin ${{ secrets.DOCKER_URL }}
     - name: Upload Docker image
