@@ -1,2 +1,0 @@
-2022-01-17 21:11:44 [main] de.uzl.lied.mtbexporter.MtbExporter.main()
-INFO: MtbExporter started!
