@@ -1,10 +1,12 @@
 package de.uzl.lied.mtbexporter.settings;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
+/**
+ * Settings for MtbExporter.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Settings {
 
@@ -34,6 +36,7 @@ public class Settings {
     public void setCronItnervall(Integer newCronIntervall) {
         cronIntervall = newCronIntervall;
     }
+
     public static FhirSettings getFhir() {
         return fhir;
     }

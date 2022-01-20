@@ -1,20 +1,27 @@
 package de.uzl.lied.mtbexporter;
 
+import de.uzl.lied.mtbexporter.jobs.CheckFhirServer;
+import de.uzl.lied.mtbexporter.settings.ConfigurationLoader;
+import de.uzl.lied.mtbexporter.settings.Settings;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
-
 import org.tinylog.Logger;
 
-import de.uzl.lied.mtbexporter.jobs.CheckFhirServer;
-import de.uzl.lied.mtbexporter.settings.ConfigurationLoader;
-import de.uzl.lied.mtbexporter.settings.Settings;
-
+/**
+ * Regularily queries FHIR server for new MTB therapie recommendations and
+ * exports them.
+ */
 public final class MtbExporter {
+
+    private MtbExporter() {
+    }
+
     /**
-     * 
-     * @param args The arguments of the program.
+     * Entry point method for MtbExporter.
+     *
+     * @param args Custom settings file can be set as custom arg.
      * @throws InterruptedException
      * @throws IOException
      */

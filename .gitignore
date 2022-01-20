@@ -33,3 +33,5 @@ settings.yaml
 
 output/*
 !output/.gitkeep
+.state
+log.txt

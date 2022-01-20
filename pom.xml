@@ -141,6 +141,36 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.1.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>9.2.1</version>
+          </dependency>
+          <dependency>
+              <groupId>com.github.ngeor</groupId>
+              <artifactId>checkstyle-rules</artifactId>
+              <version>4.9.3</version>
+          </dependency>
+      </dependencies>
+      <configuration>
+          <configLocation>com/github/ngeor/checkstyle.xml</configLocation>
+          <skip>false</skip>
+      </configuration>
+        <executions>
+          <execution>
+            <id>checkstyle</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <resources>
       <resource>
