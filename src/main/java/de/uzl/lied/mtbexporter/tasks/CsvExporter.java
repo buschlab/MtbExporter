@@ -3,6 +3,8 @@ package de.uzl.lied.mtbexporter.tasks;
 import de.uzl.lied.mtbexporter.model.BefTherapieoptionen;
 import de.uzl.lied.mtbexporter.model.Befund;
 import de.uzl.lied.mtbexporter.model.internal.Alteration;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,6 +14,8 @@ import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.RelatedArtifact;
+import org.hl7.fhir.r4.model.ServiceRequest;
+import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
 
 /**
@@ -43,9 +47,13 @@ public final class CsvExporter {
     public static Befund exportDiagnosticReport(DiagnosticReport report, List<BefTherapieoptionen> beflist) {
         Befund befund = new Befund();
         befund.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
-
+        if (report.hasBasedOn()) {
+            befund.setAuftragsnummerBef(
+                ((ServiceRequest) report.getBasedOnFirstRep().getResource())
+                    .getIdentifierFirstRep()
+                    .getValue());
+        }
         befund.setBeschlussWeitereMassnahmen(report.getConclusion());
-
         AtomicInteger targets = new AtomicInteger(0);
         AtomicInteger i = new AtomicInteger(0);
         report.getResult().forEach(r -> {
@@ -54,7 +62,6 @@ public final class CsvExporter {
                     .equals(MEDICATIONEFFICACY_URI)) {
                 return;
             }
-
             String alteration = "";
             for (Reference rd : o.getDerivedFrom()) {
                 Observation od = (Observation) rd.getResource();
@@ -123,13 +130,17 @@ public final class CsvExporter {
                         }
                         break;
                     case "51963-7":
-                        bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
+                        bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay());
                         targets.incrementAndGet();
                         break;
                     default:
                         break;
                 }
             });
+
+            List<String> note = new ArrayList<String>();
+            o.getNote().forEach(n -> note.add(n.getText()));
+            bef.setTherapie(String.join("<br>", note));
 
             String pmids = "";
             for (Extension e : o.getExtensionsByUrl(RELATEDARTIFACT_URI)) {
@@ -157,13 +168,21 @@ public final class CsvExporter {
             }
         });
 
-        String beschluss = "<b>Therapieempfehlung:</b>";
+        String date = new SimpleDateFormat("dd.MM.yyyy").format(report.getEffectiveDateTimeType().getValue());
+        String beschluss = "<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>";
+        if (report.hasSpecimen()) {
+            List<String> l = new ArrayList<String>();
+            report.getSpecimen().forEach(specimen -> {
+                l.add(((Specimen) specimen.getResource()).getIdentifierFirstRep().getValue());
+            });
+            beschluss += "Auf Basis der Tumorprobe(n): " + String.join(", ", l) + "<br>";
+        }
         beschluss += targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "";
         for (int j = 1; j <= beflist.size(); j++) {
             BefTherapieoptionen bef = beflist.get(j - 1);
             beschluss += "Nr." + j + " Therapie: Wirkstoff: " + bef.getWirkstoff() + " Evidenzlevel: "
                     + bef.getEvidenzLevel() + " PMID: " + bef.getPid() + " Prio: " + bef.getPrioritaet()
-                    + "Stützende Molekulare Alteration:" + bef.getStuetzendeMolekulareAlteration() + "<br>";
+                    + " Stützende Molekulare Alteration: " + bef.getStuetzendeMolekulareAlteration() + "<br>";
         }
 
         befund.setTumorboardbeschluss(beschluss);

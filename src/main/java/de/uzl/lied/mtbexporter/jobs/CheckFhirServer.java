@@ -1,7 +1,6 @@
 package de.uzl.lied.mtbexporter.jobs;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.api.Include;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import ca.uhn.fhir.rest.param.DateParam;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.TimerTask;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.Observation;
 import org.tinylog.Logger;
 
 /**
@@ -56,11 +56,12 @@ public class CheckFhirServer extends TimerTask {
 
         Bundle b = (Bundle) cdrClient.search().forResource(DiagnosticReport.class)
                 .where(new TokenClientParam("status").exactly().code("final"))
-                .include(new Include("DiagnosticReport:subject"))
-                .include(new Include("DiagnosticReport:result"))
-                .include(new Include("DiagnosticReport:performer"))
-                .include(new Include("DiagnosticReport:specimen"))
-                .include(new Include("Observation:performer", true))
+                .include(DiagnosticReport.INCLUDE_BASED_ON)
+                .include(DiagnosticReport.INCLUDE_SUBJECT)
+                .include(DiagnosticReport.INCLUDE_RESULT)
+                .include(DiagnosticReport.INCLUDE_PERFORMER)
+                .include(DiagnosticReport.INCLUDE_SPECIMEN)
+                .include(Observation.INCLUDE_PERFORMER.asRecursive())
                 .lastUpdated(new DateRangeParam(new DateParam(ParamPrefixEnum.GREATERTHAN, d0)))
                 .execute();
 

@@ -42,6 +42,8 @@ public class Befund {
     private Boolean empfTherapKeinTarget = false;
     @JsonProperty("CBXEMPF_THERAP_POT_THERAPIEOP")
     private Boolean empfTherapPotTherapieop = false;
+    @JsonProperty("AUFTRAGSNUMMER_BEF")
+    private String auftragsnummerBef;
     @JsonProperty("TXTBESCHLUSSWEITEREMASSNAHMEN")
     private String beschlussWeitereMassnahmen;
     @JsonProperty("EINGESCHR_PROBENQ_REEVAL_TEXT")
@@ -177,6 +179,20 @@ public class Befund {
      */
     public void setEmpfTherapPotTherapieop(Boolean empfTherapPotTherapieop) {
         this.empfTherapPotTherapieop = empfTherapPotTherapieop;
+    }
+
+    /**
+     * @return the auftragsnummerBef
+     */
+    public String getAuftragsnummerBef() {
+        return auftragsnummerBef;
+    }
+
+    /**
+     * @param auftragsnummerBef the auftragsnummerBef to set
+     */
+    public void setAuftragsnummerBef(String auftragsnummerBef) {
+        this.auftragsnummerBef = auftragsnummerBef;
     }
 
     /**
