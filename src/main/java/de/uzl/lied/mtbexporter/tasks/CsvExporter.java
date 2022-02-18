@@ -49,24 +49,20 @@ public final class CsvExporter {
         befund.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
         if (report.hasBasedOn()) {
             befund.setAuftragsnummerBef(
-                ((ServiceRequest) report.getBasedOnFirstRep().getResource())
-                    .getIdentifierFirstRep()
-                    .getValue());
+                ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
         }
         befund.setBeschlussWeitereMassnahmen(report.getConclusion());
         AtomicInteger targets = new AtomicInteger(0);
         AtomicInteger i = new AtomicInteger(0);
         report.getResult().forEach(r -> {
             Observation o = (Observation) r.getResource();
-            if (!o.getMeta().getProfile().get(0).getValue()
-                    .equals(MEDICATIONEFFICACY_URI)) {
+            if (!o.getMeta().getProfile().get(0).getValue().equals(MEDICATIONEFFICACY_URI)) {
                 return;
             }
             String alteration = "";
             for (Reference rd : o.getDerivedFrom()) {
                 Observation od = (Observation) rd.getResource();
                 Alteration a = new Alteration();
-
                 od.getComponent().forEach(oc -> {
                     switch (oc.getCode().getCodingFirstRep().getCode()) {
                         case "48018-6":
@@ -161,8 +157,7 @@ public final class CsvExporter {
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
             Task t = (Task) ((Reference) e.getValue()).getResource();
-            if (t == null || !t.getMeta().getProfile().get(0)
-                    .equals(FOLLOWUP_URI)) {
+            if (t == null || !t.getMeta().getProfile().get(0).equals(FOLLOWUP_URI)) {
                 return;
             }
             switch (t.getCode().getCodingFirstRep().getCode()) {
