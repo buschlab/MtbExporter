@@ -90,12 +90,11 @@ public class CheckFhirServer extends TimerTask {
                 .withoutQuoteChar();
         CsvSchema s2 = om.schemaFor(BefTherapieoptionen.class).withHeader().withColumnSeparator(';')
                 .withoutQuoteChar();
-        try {
+        try (FileOutputStream fos = new FileOutputStream(".state")) {
             om.writer(s).writeValue(new File(Settings.getOutputFolder() + "/" + filenameBefunde), befunde);
             om.writer(s2).writeValue(new File(Settings.getOutputFolder() + "/" + filenameTherapieoptionen),
                     befTherapieoptionen);
 
-            FileOutputStream fos = new FileOutputStream(".state");
             fos.write(String.valueOf(d.getTime()).getBytes());
             fos.close();
             Logger.info("Finished processing of " + b.getTotal() + " reports.");
