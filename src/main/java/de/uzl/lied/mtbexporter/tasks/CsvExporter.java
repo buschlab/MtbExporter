@@ -59,7 +59,7 @@ public final class CsvExporter {
             if (!o.getMeta().getProfile().get(0).getValue().equals(MEDICATIONEFFICACY_URI)) {
                 return;
             }
-            String alteration = "";
+            StringBuilder alteration = new StringBuilder();
             for (Reference rd : o.getDerivedFrom()) {
                 Observation od = (Observation) rd.getResource();
                 Alteration a = new Alteration();
@@ -79,19 +79,17 @@ public final class CsvExporter {
                             break;
                     }
                 });
-                alteration += a.toString() + "<br>";
+                alteration.append(a.toString()).append("<br>");
             }
             i.incrementAndGet();
             BefTherapieoptionen bef = new BefTherapieoptionen();
             beflist.add(bef);
             if (report.hasBasedOn()) {
                 bef.setAuftragsnummerBef(
-                    ((ServiceRequest) report.getBasedOnFirstRep().getResource())
-                        .getIdentifierFirstRep()
-                        .getValue());
+                    ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
             }
             bef.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
-            if (!alteration.isEmpty()) {
+            if (alteration.length() > 0) {
                 bef.setStuetzendeMolekulareAlteration(
                     alteration.substring(0, alteration.length() - ALTERATION_SUFFIX_LENGTH));
             }
@@ -148,12 +146,12 @@ public final class CsvExporter {
             List<String> note = new ArrayList<>();
             o.getNote().forEach(n -> note.add(n.getText()));
             bef.setNote(String.join("<br>", note));
-            String pmids = "";
+            StringBuilder pmids = new StringBuilder();
             for (Extension e : o.getExtensionsByUrl(RELATEDARTIFACT_URI)) {
-                pmids += ((RelatedArtifact) e.getValue()).getUrl().replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/",
-                        "") + ", ";
+                pmids.append(((RelatedArtifact) e.getValue()).getUrl()
+                        .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", "")).append(", ");
             }
-            bef.setPubmedIds(pmids.isEmpty() ? pmids : pmids.substring(0, pmids.length() - 2));
+            bef.setPubmedIds(pmids.length() > 0 ? pmids.substring(0, pmids.length() - 2) : pmids.toString());
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
             Task t = (Task) ((Reference) e.getValue()).getResource();
@@ -172,23 +170,24 @@ public final class CsvExporter {
             }
         });
         String date = new SimpleDateFormat("dd.MM.yyyy").format(report.getEffectiveDateTimeType().getValue());
-        String beschluss = "<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>";
+        StringBuilder beschluss = new StringBuilder("<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>");
         if (report.hasSpecimen()) {
             List<String> l = new ArrayList<>();
             report.getSpecimen().forEach(specimen ->
                 l.add(((Specimen) specimen.getResource()).getIdentifierFirstRep().getValue())
             );
-            beschluss += "Auf Basis der Tumorprobe(n): " + String.join(", ", l) + "<br>";
+            beschluss.append("Auf Basis der Tumorprobe(n): ").append(String.join(", ", l)).append("<br>");
         }
-        beschluss += targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "";
+        beschluss.append(targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "");
         for (int j = 1; j <= beflist.size(); j++) {
             BefTherapieoptionen bef = beflist.get(j - 1);
-            beschluss += "Nr." + j + " Therapie: Wirkstoff: " + bef.getWirkstoff() + " Evidenzlevel: "
-                    + bef.getEvidenzlevelText() + " PMID: " + bef.getPid() + " Prio: " + bef.getPrioritaet()
-                    + " Stützende Molekulare Alteration: " + bef.getStuetzendeMolekulareAlteration()
-                    + "<br>" + bef.getNote() + "<br><br>";
+            beschluss.append("Nr. ").append(j).append(" Therapie: Wirkstoff: ").append(bef.getWirkstoff())
+                    .append(" Evidenzlevel: ").append(bef.getEvidenzlevelText()).append(" PMID: ").append(bef.getPid())
+                    .append(" Prio: ").append(bef.getPrioritaet()).append(" Stützende Molekulare Alteration: ")
+                    .append(bef.getStuetzendeMolekulareAlteration()).append("<br>").append(bef.getNote())
+                    .append("<br><br>");
         }
-        befund.setTumorboardbeschluss(beschluss);
+        befund.setTumorboardbeschluss(beschluss.toString());
         befund.setEmpfTherap(i.get() > 0);
         befund.setEmpfTherapKeinTarget(targets.get() == 0);
         befund.setEmpfTherapPotTherapieop(targets.get() > 0);
