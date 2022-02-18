@@ -4,11 +4,14 @@ services:
     restart: unless-stopped
     build: ./
     image: ghcr.io/buschlab/mtbexporter:latest
+    command: "/app/settings.yaml"
     volumes:
       - "./settings.yaml:/app/settings.yaml"
-
+      - "./output:/output"
+      - "./.state:/.state"
     networks:
-     - mtbexporter_net
+      - miracum-cbioportal_cbioportal_net
 
 networks:
-  mtbexporter_net:
+  miracum-cbioportal_cbioportal_net:
+    external: true

@@ -3,9 +3,9 @@ FROM maven:3.8.4-openjdk-11-slim as build
 COPY $PWD /mtbexporter
 WORKDIR /mtbexporter
 
-RUN mvn install
+RUN mvn install -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
 
-FROM alpine:3.15.0
+FROM gcr.io/distroless/java11-debian11
 
 COPY --from=build /mtbexporter/target/mtbexporter-*-jar-with-dependencies.jar /app/mtbexporter.jar
-CMD ["java", "-jar", "/app/mtbexporter.jar"]
+ENTRYPOINT ["java", "-jar", "/app/mtbexporter.jar"]
