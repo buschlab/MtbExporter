@@ -33,11 +33,8 @@ import org.tinylog.Logger;
  */
 public class CheckFhirServer extends TimerTask {
 
-    private static IGenericClient cdrClient;
-
-    public CheckFhirServer() {
-        cdrClient = FhirContext.forR4().newRestfulGenericClient(Settings.getFhir().getClinicalDataServerUrl());
-    }
+    private static IGenericClient cdrClient = FhirContext.forR4()
+            .newRestfulGenericClient(Settings.getFhir().getClinicalDataServerUrl());
 
     @Override
     public void run() {
@@ -70,8 +67,8 @@ public class CheckFhirServer extends TimerTask {
             return;
         }
         Logger.info("Found " + b.getTotal() + " new reports!");
-        List<Befund> befunde = new ArrayList<Befund>();
-        List<BefTherapieoptionen> befTherapieoptionen = new ArrayList<BefTherapieoptionen>();
+        List<Befund> befunde = new ArrayList<>();
+        List<BefTherapieoptionen> befTherapieoptionen = new ArrayList<>();
         b.getEntry().forEach(entry -> {
             if (entry.getResource() instanceof DiagnosticReport) {
                 DiagnosticReport report = (DiagnosticReport) entry.getResource();
@@ -96,7 +93,6 @@ public class CheckFhirServer extends TimerTask {
                     befTherapieoptionen);
 
             fos.write(String.valueOf(d.getTime()).getBytes());
-            fos.close();
             Logger.info("Finished processing of " + b.getTotal() + " reports.");
         } catch (IOException e) {
             Logger.error(e, "Error writing report!");

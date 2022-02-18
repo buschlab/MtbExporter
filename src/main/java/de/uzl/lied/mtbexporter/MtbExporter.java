@@ -22,10 +22,9 @@ public final class MtbExporter {
      * Entry point method for MtbExporter.
      *
      * @param args Custom settings file can be set as custom arg.
-     * @throws InterruptedException
      * @throws IOException
      */
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws IOException {
         InputStream settingsYaml = ClassLoader.getSystemClassLoader().getResourceAsStream("settings.yaml");
         if (args.length == 1) {
             settingsYaml = new FileInputStream(args[0]);

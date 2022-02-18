@@ -145,7 +145,7 @@ public final class CsvExporter {
                         break;
                 }
             });
-            List<String> note = new ArrayList<String>();
+            List<String> note = new ArrayList<>();
             o.getNote().forEach(n -> note.add(n.getText()));
             bef.setNote(String.join("<br>", note));
             String pmids = "";
@@ -174,10 +174,10 @@ public final class CsvExporter {
         String date = new SimpleDateFormat("dd.MM.yyyy").format(report.getEffectiveDateTimeType().getValue());
         String beschluss = "<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>";
         if (report.hasSpecimen()) {
-            List<String> l = new ArrayList<String>();
-            report.getSpecimen().forEach(specimen -> {
-                l.add(((Specimen) specimen.getResource()).getIdentifierFirstRep().getValue());
-            });
+            List<String> l = new ArrayList<>();
+            report.getSpecimen().forEach(specimen ->
+                l.add(((Specimen) specimen.getResource()).getIdentifierFirstRep().getValue())
+            );
             beschluss += "Auf Basis der Tumorprobe(n): " + String.join(", ", l) + "<br>";
         }
         beschluss += targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "";
