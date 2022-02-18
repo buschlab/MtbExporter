@@ -1,5 +1,6 @@
 package de.uzl.lied.mtbexporter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -7,13 +8,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Model for TKONF_MTB_Bef_Therapieoptionen.
  */
 @JsonPropertyOrder({
+    "AUFTRAGSNUMMER_BEF",
     "PID",
     "CBXEVIDENZLEVEL_R",
     "CBXEVIDL_M1_ZUL_Z_EMA",
     "CBXEVIDL_M1_ZUL_Z_FDA",
     "CBXEVIDENZLEVEL_M3_IN_SITU",
     "CBXEVIDENZLEVEL_M3_IN_VITRO",
-    "GZPMID",
+    "TXTPMID",
     "GZPRIORISIERUNG",
     "TXTEVIDENZLEVEL_M3_FREITEXT",
     "TXTSTUETZENDE_MOLEKULARE_ALTER",
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class BefTherapieoptionen {
 
+    @JsonProperty("AUFTRAGSNUMMER_BEF")
+    private String auftragsnummerBef;
     @JsonProperty("PID")
     private String pid;
     @JsonProperty("CBXEVIDENZLEVEL_R")
@@ -47,8 +51,26 @@ public class BefTherapieoptionen {
     private String evidenzLevel;
     @JsonProperty("TXTWIRKSTOFF")
     private String wirkstoff;
-    @JsonProperty("GZPMID")
+    @JsonProperty("TXTPMID")
     private String pubmedIds;
+    @JsonIgnore
+    private String note;
+    @JsonIgnore
+    private String evidenzlevelText;
+
+    /**
+     * @return the auftragsnummerBef
+     */
+    public String getAuftragsnummerBef() {
+        return auftragsnummerBef;
+    }
+
+    /**
+     * @param auftragsnummerBef the auftragsnummerBef to set
+     */
+    public void setAuftragsnummerBef(String auftragsnummerBef) {
+        this.auftragsnummerBef = auftragsnummerBef;
+    }
 
     /**
      * @return the pid
@@ -230,6 +252,34 @@ public class BefTherapieoptionen {
      */
     public void setPubmedIds(String pubmedIds) {
         this.pubmedIds = pubmedIds;
+    }
+
+    /**
+     * @return the note
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * @param note the note to set
+     */
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    /**
+     * @return the evidenzlevelText
+     */
+    public String getEvidenzlevelText() {
+        return evidenzlevelText;
+    }
+
+    /**
+     * @param evidenzlevelText the evidenzlevelText to set
+     */
+    public void setEvidenzlevelText(String evidenzlevelText) {
+        this.evidenzlevelText = evidenzlevelText;
     }
 
 }

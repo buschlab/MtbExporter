@@ -7,19 +7,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Model for TKONF_MTB_Befund.
  */
 @JsonPropertyOrder({
+    "AUFTRAGSNUMMER_BEF",
     "PID",
     "CBXEMPF_DIAGN",
     "CBXEMPF_DIAGN_BIOPSIEN_ERF",
     "CBXEMPF_DIAGN_BLUTENTN_ERF",
     "CBXEMPF_DIAGN_WANGENABS_ERF",
-    "TXTEMPFEHLUNG_DIAGNOSTIK",
     "CBXEMPF_THERAP",
     "CBXEMPF_THERAP_KEIN_TARGET",
     "CBXEMPF_THERAP_POT_THERAPIEOP",
     "TXTBESCHLUSSWEITEREMASSNAHMEN",
-    "REBIOPSIE_EMPFOHLEN_TEXT",
-    "HUMANGEN_BERATUNG_EMPF_TEXT",
-    "REBIOPSIE_EMPFOHLEN_TEXT",
+    "TXTEINGESCHR_PROBENQ_REEVAL",
+    "TXTEMPFEHLUNG_DIAGNOSTIK",
+    "TXTHUMANGEN_BERATUNG_EMPF",
+    "TXTREBIOPSIE_EMPFOHLEN",
     "TXTTUMORBOARDBESCHLUSS"
 })
 public class Befund {
@@ -29,13 +30,13 @@ public class Befund {
     @JsonProperty("CBXEMPF_DIAGN")
     private Boolean empfDiagn = false;
     @JsonProperty("CBXEMPF_DIAGN_BIOPSIEN_ERF")
-    private Boolean empfDiagnBiopsienErf;
+    private Boolean empfDiagnBiopsienErf = false;
     @JsonProperty("CBXEMPF_DIAGN_BLUTENTN_ERF")
     private Boolean empfDiagnBlutentnErf = false;
     @JsonProperty("CBXEMPF_DIAGN_WANGENABS_ERF")
     private Boolean empfDiagnWangenabsErf = false;
     @JsonProperty("TXTEMPFEHLUNG_DIAGNOSTIK")
-    private Boolean empfehlungDiagnostik;
+    private Boolean empfehlungDiagnostik = false;
     @JsonProperty("CBXEMPF_THERAP")
     private Boolean empfTherap = false;
     @JsonProperty("CBXEMPF_THERAP_KEIN_TARGET")
@@ -46,11 +47,11 @@ public class Befund {
     private String auftragsnummerBef;
     @JsonProperty("TXTBESCHLUSSWEITEREMASSNAHMEN")
     private String beschlussWeitereMassnahmen;
-    @JsonProperty("EINGESCHR_PROBENQ_REEVAL_TEXT")
+    @JsonProperty("TXTEINGESCHR_PROBENQ_REEVAL")
     private String eingeschProbenQReevalText = "nein";
-    @JsonProperty("HUMANGEN_BERATUNG_EMPF_TEXT")
+    @JsonProperty("TXTHUMANGEN_BERATUNG_EMPF")
     private String humangenBeratungEmpfText = "nein";
-    @JsonProperty("REBIOPSIE_EMPFOHLEN_TEXT")
+    @JsonProperty("TXTREBIOPSIE_EMPFOHLEN")
     private String rebiopsieEmpfohlenText = "nein";
     @JsonProperty("TXTTUMORBOARDBESCHLUSS")
     private String tumorboardbeschluss;

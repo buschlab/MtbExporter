@@ -86,9 +86,14 @@ public final class CsvExporter {
                 alteration += a.toString() + "<br>";
             }
             i.incrementAndGet();
-
             BefTherapieoptionen bef = new BefTherapieoptionen();
             beflist.add(bef);
+            if (report.hasBasedOn()) {
+                bef.setAuftragsnummerBef(
+                    ((ServiceRequest) report.getBasedOnFirstRep().getResource())
+                        .getIdentifierFirstRep()
+                        .getValue());
+            }
             bef.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
             if (!alteration.isEmpty()) {
                 bef.setStuetzendeMolekulareAlteration(
@@ -101,11 +106,16 @@ public final class CsvExporter {
                         String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split(" ");
                         if (evidence.length > 1) {
                             bef.setEvidenzLevel(evidence[0]);
+                            if (evidence[0].contains("m1")) {
+                                bef.setTherapie("Konventionelle Standardtherapie/ Leitlinientherapie");
+                            } else {
+                                bef.setTherapie("Off-Label-Therapie");
+                            }
                             switch (evidence[1]) {
                                 case "Z(EMA)":
                                     bef.setEvidenzlevelM1ZulEma(true);
                                     break;
-                                case "F(FDA)":
+                                case "Z(FDA)":
                                     bef.setEvidenzlevelM1ZulFda(true);
                                     break;
                                 case "is":
@@ -116,6 +126,7 @@ public final class CsvExporter {
                                     break;
                                 case "R":
                                     bef.setEvidenzlevelR(true);
+                                    bef.setTherapie("Resistenz");
                                     break;
                                 default:
                                     break;
@@ -128,6 +139,7 @@ public final class CsvExporter {
                         } else {
                             bef.setEvidenzLevel(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
                         }
+                        bef.setEvidenzlevelText(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
                         break;
                     case "51963-7":
                         bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay());
@@ -137,11 +149,9 @@ public final class CsvExporter {
                         break;
                 }
             });
-
             List<String> note = new ArrayList<String>();
             o.getNote().forEach(n -> note.add(n.getText()));
-            bef.setTherapie(String.join("<br>", note));
-
+            bef.setNote(String.join("<br>", note));
             String pmids = "";
             for (Extension e : o.getExtensionsByUrl(RELATEDARTIFACT_URI)) {
                 pmids += ((RelatedArtifact) e.getValue()).getUrl().replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/",
@@ -149,7 +159,6 @@ public final class CsvExporter {
             }
             bef.setPubmedIds(pmids.isEmpty() ? pmids : pmids.substring(0, pmids.length() - 2));
         });
-
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
             Task t = (Task) ((Reference) e.getValue()).getResource();
             if (t == null || !t.getMeta().getProfile().get(0)
@@ -167,7 +176,6 @@ public final class CsvExporter {
                     break;
             }
         });
-
         String date = new SimpleDateFormat("dd.MM.yyyy").format(report.getEffectiveDateTimeType().getValue());
         String beschluss = "<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>";
         if (report.hasSpecimen()) {
@@ -181,18 +189,15 @@ public final class CsvExporter {
         for (int j = 1; j <= beflist.size(); j++) {
             BefTherapieoptionen bef = beflist.get(j - 1);
             beschluss += "Nr." + j + " Therapie: Wirkstoff: " + bef.getWirkstoff() + " Evidenzlevel: "
-                    + bef.getEvidenzLevel() + " PMID: " + bef.getPid() + " Prio: " + bef.getPrioritaet()
-                    + " Stützende Molekulare Alteration: " + bef.getStuetzendeMolekulareAlteration() + "<br>";
+                    + bef.getEvidenzlevelText() + " PMID: " + bef.getPid() + " Prio: " + bef.getPrioritaet()
+                    + " Stützende Molekulare Alteration: " + bef.getStuetzendeMolekulareAlteration()
+                    + "<br>" + bef.getNote() + "<br><br>";
         }
-
         befund.setTumorboardbeschluss(beschluss);
-
         befund.setEmpfTherap(i.get() > 0);
         befund.setEmpfTherapKeinTarget(targets.get() == 0);
         befund.setEmpfTherapPotTherapieop(targets.get() > 0);
-
         return befund;
-
     }
 
 }
