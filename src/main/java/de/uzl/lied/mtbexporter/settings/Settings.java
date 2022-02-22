@@ -48,11 +48,6 @@ public class Settings {
         return fhir;
     }
 
-    @JsonProperty("fhir")
-    public void setFhir(FhirSettings newFhir) {
-        fhir = newFhir;
-    }
-
     public static List<Regex> getRegex() {
         return regex;
     }
