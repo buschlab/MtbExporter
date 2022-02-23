@@ -9,6 +9,7 @@ import java.util.List;
  * Settings for MtbExporter.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@SuppressWarnings({"checkstyle:HideUtilityClassConstructor"})
 public class Settings {
 
     @JsonProperty("outputFolder")
