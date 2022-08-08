@@ -26,13 +26,13 @@ public final class CsvExporter {
     private static final int PERCENT = 100;
     private static final int ALTERATION_SUFFIX_LENGTH = 4;
     private static final String RELATEDARTIFACT_URI =
-        "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/RelatedArtifact";
+        "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/CGRelatedArtifact";
     private static final String FOLLOWUP_URI =
         "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/task-rec-followup";
     private static final String RECOMMENDEDACTION_URI =
         "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/RecommendedAction";
-    private static final String MEDICATIONEFFICACY_URI =
-        "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/medication-efficacy";
+    private static final String THERAPEUTIC_IMPLICATION =
+        "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/therapeutic-implication";
 
     private CsvExporter() {
     }
@@ -56,7 +56,7 @@ public final class CsvExporter {
         AtomicInteger i = new AtomicInteger(0);
         report.getResult().forEach(r -> {
             Observation o = (Observation) r.getResource();
-            if (!o.getMeta().getProfile().get(0).getValue().equals(MEDICATIONEFFICACY_URI)) {
+            if (!o.getMeta().hasProfile(THERAPEUTIC_IMPLICATION)) {
                 return;
             }
             StringBuilder alteration = new StringBuilder();
