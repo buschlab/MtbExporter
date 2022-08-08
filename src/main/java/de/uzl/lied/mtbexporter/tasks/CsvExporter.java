@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.hl7.fhir.r4.model.DiagnosticReport;
-import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
@@ -24,7 +23,7 @@ import org.hl7.fhir.r4.model.Task;
 public final class CsvExporter {
 
     private static final int PERCENT = 100;
-    private static final int ALTERATION_SUFFIX_LENGTH = 4;
+    private static final int ASL = 4;
     private static final String RELATEDARTIFACT_URI =
         "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/CGRelatedArtifact";
     private static final String FOLLOWUP_URI =
@@ -49,7 +48,7 @@ public final class CsvExporter {
         befund.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
         if (report.hasBasedOn()) {
             befund.setAuftragsnummerBef(
-                ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
+                    ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
         }
         befund.setBeschlussWeitereMassnahmen(report.getConclusion());
         AtomicInteger targets = new AtomicInteger(0);
@@ -90,8 +89,7 @@ public final class CsvExporter {
             }
             bef.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
             if (alteration.length() > 0) {
-                bef.setStuetzendeMolekulareAlteration(
-                    alteration.substring(0, alteration.length() - ALTERATION_SUFFIX_LENGTH));
+                bef.setStuetzendeMolekulareAlteration(alteration.substring(0, alteration.length() - ASL));
             }
             bef.setPrioritaet(i.get());
             o.getComponent().forEach(oc -> {
@@ -139,6 +137,12 @@ public final class CsvExporter {
                         bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay());
                         targets.incrementAndGet();
                         break;
+                    case "associated-therapy":
+                        bef.setTherapie("Klinische Studie");
+                        List<String> studies = new ArrayList<>();
+                        oc.getValueCodeableConcept().getCoding().forEach(c -> studies.add(c.getCode()));
+                        bef.setRegistrierungsnummer(String.join(", ", studies));
+                        break;
                     default:
                         break;
                 }
@@ -146,12 +150,10 @@ public final class CsvExporter {
             List<String> note = new ArrayList<>();
             o.getNote().forEach(n -> note.add(n.getText()));
             bef.setNote(String.join("<br>", note));
-            StringBuilder pmids = new StringBuilder();
-            for (Extension e : o.getExtensionsByUrl(RELATEDARTIFACT_URI)) {
-                pmids.append(((RelatedArtifact) e.getValue()).getUrl()
-                        .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", "")).append(", ");
-            }
-            bef.setPubmedIds(pmids.length() > 0 ? pmids.substring(0, pmids.length() - 2) : pmids.toString());
+            List<String> pmids = new ArrayList<>();
+            o.getExtensionsByUrl(RELATEDARTIFACT_URI).forEach(e -> ((RelatedArtifact) e.getValue()).getUrl()
+                    .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", ""));
+            bef.setPubmedIds(String.join(", ", pmids));
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
             Task t = (Task) ((Reference) e.getValue()).getResource();
@@ -173,9 +175,7 @@ public final class CsvExporter {
         StringBuilder beschluss = new StringBuilder("<b>Therapieempfehlung aus Konferenz vom " + date + ":</b>");
         if (report.hasSpecimen()) {
             List<String> l = new ArrayList<>();
-            report.getSpecimen().forEach(specimen ->
-                l.add(((Specimen) specimen.getResource()).getIdentifierFirstRep().getValue())
-            );
+            report.getSpecimen().forEach(s -> l.add(((Specimen) s.getResource()).getIdentifierFirstRep().getValue()));
             beschluss.append("Auf Basis der Tumorprobe(n): ").append(String.join(", ", l)).append("<br>");
         }
         beschluss.append(targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "");

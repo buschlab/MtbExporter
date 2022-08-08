@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTTHERAPIE",
     "TXTEVIDENZLEVEL",
     "TXTWIRKSTOFF",
+    "TXTREGISTRIERUNGSNUMMER"
 })
 public class BefTherapieoptionen {
 
@@ -53,6 +54,8 @@ public class BefTherapieoptionen {
     private String wirkstoff;
     @JsonProperty("TXTPMID")
     private String pubmedIds;
+    @JsonProperty("TXTREGISTRIERUNGSNUMMER")
+    private String registrierungsnummer;
     @JsonIgnore
     private String note;
     @JsonIgnore
@@ -280,6 +283,20 @@ public class BefTherapieoptionen {
      */
     public void setEvidenzlevelText(String evidenzlevelText) {
         this.evidenzlevelText = evidenzlevelText;
+    }
+
+    /**
+     * @return the registrierungsnummer
+     */
+    public String getRegistrierungsnummer() {
+        return registrierungsnummer;
+    }
+
+    /**
+     * @param registrierungsnummer the registrierungsnummer to set
+     */
+    public void setRegistrierungsnummer(String registrierungsnummer) {
+        this.registrierungsnummer = registrierungsnummer;
     }
 
 }
