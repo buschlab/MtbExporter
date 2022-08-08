@@ -2,7 +2,3 @@ outputFolder: output
 cronIntervall: 60000
 fhir:
   clinicalDataServerUrl: http://localhost:8080/fhir
-regex:
-    -
-      cbio: "-"
-      his: /
