@@ -24,7 +24,10 @@ Now MtbExporter can be started. Now it will regularly (based on your cron interv
 
 ## Authors
 
-- Niklas Reimer | [@niklas_reimer](https://twitter.com/niklas_reimer) | [n.reimer@uni-luebeck.de](mailto:n.reimer@uni-luebeck.de)
+- [Niklas Reimer](https://www.systembiologie.uni-luebeck.de/team/alumni/niklas-reimer/) | Group for Medical Systems Biology, Lübeck Institute of Experimental Dermatology, 
+Universität zu Lübeck, Germany
+  - [@niklas_reimer](https://twitter.com/niklas_reimer)
+  - [n.reimer@uni-luebeck.de](mailto:n.reimer@uni-luebeck.de)
 
 ## License
 
