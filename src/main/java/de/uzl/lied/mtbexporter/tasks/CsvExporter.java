@@ -50,7 +50,7 @@ public final class CsvExporter {
             befund.setAuftragsnummerBef(
                     ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
         }
-        befund.setBeschlussWeitereMassnahmen(report.getConclusion().replace("\n", "<br>"));
+        befund.setBeschlussWeitereMassnahmen(report.getConclusion().replace("\n", "<br>").replace(";", ","));
         AtomicInteger targets = new AtomicInteger(0);
         AtomicInteger i = new AtomicInteger(0);
         report.getResult().forEach(r -> {
