@@ -240,7 +240,11 @@ public class BefTherapieoptionen {
      * @param wirkstoff the wirkstoff to set
      */
     public void setWirkstoff(String wirkstoff) {
-        this.wirkstoff = wirkstoff;
+        if (this.wirkstoff == null || this.wirkstoff.isEmpty()) {
+            this.wirkstoff = wirkstoff;
+        } else {
+            this.wirkstoff += " + " + wirkstoff;
+        }
     }
 
     /**
