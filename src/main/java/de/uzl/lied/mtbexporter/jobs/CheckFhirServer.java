@@ -84,9 +84,9 @@ public class CheckFhirServer extends TimerTask {
         CsvMapper om = new CsvMapper();
         om.configOverride(Boolean.class).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.NUMBER));
         CsvSchema s = om.schemaFor(Befund.class).withHeader().withColumnSeparator(';')
-                .withoutQuoteChar();
+                .withoutQuoteChar().withLineSeparator("\r\n");
         CsvSchema s2 = om.schemaFor(BefTherapieoptionen.class).withHeader().withColumnSeparator(';')
-                .withoutQuoteChar();
+                .withoutQuoteChar().withLineSeparator("\r\n");
         try (FileOutputStream fos = new FileOutputStream(".state")) {
             om.writer(s).writeValue(new File(Settings.getOutputFolder(), filenameBefunde), befunde);
             om.writer(s2).writeValue(new File(Settings.getOutputFolder(), filenameTherapieoptionen),
