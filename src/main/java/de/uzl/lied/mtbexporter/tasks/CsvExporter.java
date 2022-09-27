@@ -43,7 +43,7 @@ public final class CsvExporter {
      * @param beflist List of therapy options as a partial result
      * @return FHIR resource exported to a JVM Befund object
      */
-    @SuppressWarnings({"checkstyle:MethodLength"})
+    @SuppressWarnings({ "checkstyle:MethodLength" })
     public static Befund exportDiagnosticReport(DiagnosticReport report, List<BefTherapieoptionen> beflist) {
         Befund befund = new Befund();
         List<BefTherapieoptionen> beflistPatient = new ArrayList<>();
@@ -88,11 +88,22 @@ public final class CsvExporter {
             beflistPatient.add(bef);
             if (report.hasBasedOn()) {
                 bef.setAuftragsnummerBef(
-                    ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
+                        ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep()
+                                .getValue());
             }
             bef.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
+            if (o.hasHasMember()) {
+                o.getHasMember().forEach(member -> {
+                    Observation oMember = (Observation) member.getResource();
+                    if (oMember.getCode().getCodingFirstRep().getCode().equals("75321-0")) {
+                        bef.setStuetzendeMolekulareAlteration(
+                                oMember.getValueStringType().getValueAsString() + "<br>");
+                    }
+                });
+            }
             if (alteration.length() > 0) {
-                bef.setStuetzendeMolekulareAlteration(alteration.substring(0, alteration.length() - ASL));
+                bef.setStuetzendeMolekulareAlteration(bef.getStuetzendeMolekulareAlteration()
+                        + alteration.substring(0, alteration.length() - ASL));
             }
             bef.setPrioritaet(i.get());
             o.getComponent().forEach(oc -> {
