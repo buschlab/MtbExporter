@@ -43,8 +43,10 @@ public final class CsvExporter {
      * @param beflist List of therapy options as a partial result
      * @return FHIR resource exported to a JVM Befund object
      */
+    @SuppressWarnings({"checkstyle:MethodLength"})
     public static Befund exportDiagnosticReport(DiagnosticReport report, List<BefTherapieoptionen> beflist) {
         Befund befund = new Befund();
+        List<BefTherapieoptionen> beflistPatient = new ArrayList<>();
         befund.setPid(((Patient) report.getSubject().getResource()).getIdentifierFirstRep().getValue());
         if (report.hasBasedOn()) {
             befund.setAuftragsnummerBef(
@@ -83,6 +85,7 @@ public final class CsvExporter {
             i.incrementAndGet();
             BefTherapieoptionen bef = new BefTherapieoptionen();
             beflist.add(bef);
+            beflistPatient.add(bef);
             if (report.hasBasedOn()) {
                 bef.setAuftragsnummerBef(
                     ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
@@ -179,8 +182,8 @@ public final class CsvExporter {
             beschluss.append("Auf Basis der Tumorprobe(n): ").append(String.join(", ", l)).append("<br>");
         }
         beschluss.append(targets.get() > 0 ? "<br>potentielle Therapieoptionen<br>" : "");
-        for (int j = 1; j <= beflist.size(); j++) {
-            BefTherapieoptionen bef = beflist.get(j - 1);
+        for (int j = 1; j <= beflistPatient.size(); j++) {
+            BefTherapieoptionen bef = beflistPatient.get(j - 1);
             beschluss.append("Nr. ").append(j).append(" Therapie: Wirkstoff: ").append(bef.getWirkstoff())
                     .append(" Evidenzlevel: ").append(bef.getEvidenzlevelText()).append(" PMID: ").append(bef.getPid())
                     .append(" Prio: ").append(bef.getPrioritaet()).append(" Stützende Molekulare Alteration: ")
