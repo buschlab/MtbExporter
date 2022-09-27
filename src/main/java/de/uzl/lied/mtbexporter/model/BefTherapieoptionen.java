@@ -45,7 +45,7 @@ public class BefTherapieoptionen {
     @JsonProperty("TXTEVIDENZLEVEL_M3_FREITEXT")
     private String evidenzlevelM3Freitext;
     @JsonProperty("TXTSTUETZENDE_MOLEKULARE_ALTER")
-    private String stuetzendeMolekulareAlteration;
+    private String stuetzendeMolekulareAlteration = "";
     @JsonProperty("TXTTHERAPIE")
     private String therapie = "";
     @JsonProperty("TXTEVIDENZLEVEL")
