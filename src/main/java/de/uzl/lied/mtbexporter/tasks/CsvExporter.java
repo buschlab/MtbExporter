@@ -99,12 +99,11 @@ public final class CsvExporter {
                 switch (oc.getCode().getCodingFirstRep().getCode()) {
                     case "93044-6":
                         String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split("_");
+                        bef.setEvidenzLevel(evidence[0]);
                         if (evidence.length > 1) {
                             bef.setEvidenzLevel(evidence[0]);
                             if (evidence[0].contains("m1")) {
                                 bef.setTherapie("Konventionelle Standardtherapie/ Leitlinientherapie");
-                            } else {
-                                bef.setTherapie("Off-Label-Therapie");
                             }
                             switch (evidence[1]) {
                                 case "Z(EMA)":
@@ -134,7 +133,8 @@ public final class CsvExporter {
                         } else {
                             bef.setEvidenzLevel(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
                         }
-                        bef.setEvidenzlevelText(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
+                        bef.setEvidenzlevelText(oc.getValueCodeableConcept().getCodingFirstRep().getCode()
+                                .replace("_", " "));
                         break;
                     case "51963-7":
                         bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay());
