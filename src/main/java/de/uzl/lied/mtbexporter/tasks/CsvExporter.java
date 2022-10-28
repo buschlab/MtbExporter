@@ -110,9 +110,10 @@ public final class CsvExporter {
                 switch (oc.getCode().getCodingFirstRep().getCode()) {
                     case "93044-6":
                         String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split("_");
-                        bef.setEvidenzLevel(evidence[0]);
+                        bef.setEvidenzLevel("0".equals(evidence[0]) ? "" : evidence[0]);
                         if (evidence.length > 1) {
                             bef.setEvidenzLevel(evidence[0]);
+                            bef.setTherapie("Off-Label-Therapie");
                             if (evidence[0].contains("m1")) {
                                 bef.setTherapie("Konventionelle Standardtherapie/ Leitlinientherapie");
                             }
@@ -141,8 +142,6 @@ public final class CsvExporter {
                                         String.join(" ", Arrays.asList(evidence).subList(2, evidence.length))
                                                 .replace("(", "").replace(")", ""));
                             }
-                        } else {
-                            bef.setEvidenzLevel(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
                         }
                         bef.setEvidenzlevelText(oc.getValueCodeableConcept().getCodingFirstRep().getCode()
                                 .replace("_", " "));
@@ -165,8 +164,10 @@ public final class CsvExporter {
             o.getNote().forEach(n -> note.add(n.getText()));
             bef.setNote(String.join("<br>", note));
             List<String> pmids = new ArrayList<>();
-            o.getExtensionsByUrl(RELATEDARTIFACT_URI).forEach(e -> ((RelatedArtifact) e.getValue()).getUrl()
+            o.getExtensionsByUrl(RELATEDARTIFACT_URI).forEach(e -> {
+                pmids.add(((RelatedArtifact) e.getValue()).getUrl()
                     .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", ""));
+            });
             bef.setPubmedIds(String.join(", ", pmids));
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
