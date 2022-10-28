@@ -97,7 +97,7 @@ public final class CsvExporter {
                     Observation oMember = (Observation) member.getResource();
                     if (oMember.getCode().getCodingFirstRep().getCode().equals("75321-0")) {
                         bef.setStuetzendeMolekulareAlteration(
-                                oMember.getValueStringType().getValueAsString() + "<br>");
+                                oMember.getValueStringType().getValueAsString().replace(": null", "") + "<br>");
                     }
                 });
             }
@@ -111,9 +111,8 @@ public final class CsvExporter {
                     case "93044-6":
                         String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split("_");
                         bef.setEvidenzLevel("0".equals(evidence[0]) ? "" : evidence[0]);
+                        bef.setTherapie("Off-Label-Therapie");
                         if (evidence.length > 1) {
-                            bef.setEvidenzLevel(evidence[0]);
-                            bef.setTherapie("Off-Label-Therapie");
                             if (evidence[0].contains("m1")) {
                                 bef.setTherapie("Konventionelle Standardtherapie/ Leitlinientherapie");
                             }
@@ -168,6 +167,7 @@ public final class CsvExporter {
                 pmids.add(((RelatedArtifact) e.getValue()).getUrl()
                     .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", ""));
             });
+            pmids.remove("-1");
             bef.setPubmedIds(String.join(", ", pmids));
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
