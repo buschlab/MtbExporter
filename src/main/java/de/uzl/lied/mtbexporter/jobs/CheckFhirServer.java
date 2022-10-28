@@ -31,6 +31,7 @@ import org.tinylog.Logger;
 /**
  * Job that is triggerd to check the FHIR server and start the export.
  */
+@SuppressWarnings({"checkstyle:MagicNumber"})
 public class CheckFhirServer extends TimerTask {
 
     private static IGenericClient cdrClient = FhirContext.forR4()
@@ -60,6 +61,7 @@ public class CheckFhirServer extends TimerTask {
                 .include(DiagnosticReport.INCLUDE_SPECIMEN)
                 .include(Observation.INCLUDE_PERFORMER.asRecursive())
                 .lastUpdated(new DateRangeParam(new DateParam(ParamPrefixEnum.GREATERTHAN, d0)))
+                .count(32768)
                 .execute();
 
         if (!b.hasEntry()) {
