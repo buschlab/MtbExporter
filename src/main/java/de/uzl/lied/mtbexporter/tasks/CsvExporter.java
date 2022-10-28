@@ -98,7 +98,7 @@ public final class CsvExporter {
             o.getComponent().forEach(oc -> {
                 switch (oc.getCode().getCodingFirstRep().getCode()) {
                     case "93044-6":
-                        String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split(" ");
+                        String[] evidence = oc.getValueCodeableConcept().getCodingFirstRep().getCode().split("_");
                         if (evidence.length > 1) {
                             bef.setEvidenzLevel(evidence[0]);
                             if (evidence[0].contains("m1")) {
