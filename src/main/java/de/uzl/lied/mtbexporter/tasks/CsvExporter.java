@@ -52,7 +52,8 @@ public final class CsvExporter {
             befund.setAuftragsnummerBef(
                     ((ServiceRequest) report.getBasedOnFirstRep().getResource()).getIdentifierFirstRep().getValue());
         }
-        befund.setBeschlussWeitereMassnahmen(report.getConclusion().replace("\n", "<br>").replace(";", ","));
+        //befund.setBeschlussWeitereMassnahmen(report.getConclusion().replace("\n", "<br>").replace(";", ","));
+        befund.setBeschlussWeitereMassnahmen("");
         AtomicInteger targets = new AtomicInteger(0);
         AtomicInteger i = new AtomicInteger(0);
         report.getResult().forEach(r -> {
@@ -202,7 +203,9 @@ public final class CsvExporter {
                     .append(bef.getStuetzendeMolekulareAlteration()).append("<br>").append(bef.getNote())
                     .append("<br><br>");
         }
-        befund.setTumorboardbeschluss(beschluss.toString());
+        // befund.setTumorboardbeschluss(beschluss.toString());
+        befund.setTumorboardbeschluss(report.getConclusion().replace("\n", "<br>").replace(";", ","));
+
         befund.setEmpfTherap(i.get() > 0);
         befund.setEmpfTherapKeinTarget(targets.get() == 0);
         befund.setEmpfTherapPotTherapieop(targets.get() > 0);
