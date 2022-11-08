@@ -170,6 +170,9 @@ public final class CsvExporter {
             });
             pmids.remove("-1");
             bef.setPubmedIds(String.join(", ", pmids));
+            if (bef.getEvidenzLevel() == null || bef.getEvidenzLevel().isEmpty()) {
+                bef.setEvidenzlevelNichtBiomarker(true);
+            }
         });
         report.getExtensionsByUrl(RECOMMENDEDACTION_URI).forEach(e -> {
             Task t = (Task) ((Reference) e.getValue()).getResource();

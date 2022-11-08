@@ -22,7 +22,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTTHERAPIE",
     "TXTEVIDENZLEVEL",
     "TXTWIRKSTOFF",
-    "TXTREGISTRIERUNGSNUMMER"
+    "TXTKLINISCHE_STUDIE_NCT_DRKS_S",
+    "CBXEVIDENZLEVEL_NICHT_BIOMARKE"
 })
 public class BefTherapieoptionen {
 
@@ -54,8 +55,10 @@ public class BefTherapieoptionen {
     private String wirkstoff;
     @JsonProperty("TXTPMID")
     private String pubmedIds;
-    @JsonProperty("TXTREGISTRIERUNGSNUMMER")
+    @JsonProperty("TXTKLINISCHE_STUDIE_NCT_DRKS_S")
     private String registrierungsnummer;
+    @JsonProperty("CBXEVIDENZLEVEL_NICHT_BIOMARKE")
+    private Boolean evidenzlevelNichtBiomarker = false;
     @JsonIgnore
     private String note;
     @JsonIgnore
@@ -301,6 +304,20 @@ public class BefTherapieoptionen {
      */
     public void setRegistrierungsnummer(String registrierungsnummer) {
         this.registrierungsnummer = registrierungsnummer;
+    }
+
+    /**
+     * @return the evidenzlevelNichtBiomarker
+     */
+    public Boolean getEvidenzlevelNichtBiomarker() {
+        return evidenzlevelNichtBiomarker;
+    }
+
+    /**
+     * @param evidenzlevelNichtBiomarker the evidenzlevelNichtBiomarker to set
+     */
+    public void setEvidenzlevelNichtBiomarker(Boolean evidenzlevelNichtBiomarker) {
+        this.evidenzlevelNichtBiomarker = evidenzlevelNichtBiomarker;
     }
 
 }
