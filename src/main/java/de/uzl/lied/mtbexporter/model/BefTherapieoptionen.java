@@ -23,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTEVIDENZLEVEL",
     "TXTWIRKSTOFF",
     "TXTKLINISCHE_STUDIE_NCT_DRKS_S",
-    "CBXEVIDENZLEVEL_NICHT_BIOMARKE"
+    "CBXEVIDENZLEVEL_NICHT_BIOMARKE",
+    "EXPORT_NR"
 })
 public class BefTherapieoptionen {
 
@@ -59,6 +60,8 @@ public class BefTherapieoptionen {
     private String registrierungsnummer;
     @JsonProperty("CBXEVIDENZLEVEL_NICHT_BIOMARKE")
     private Boolean evidenzlevelNichtBiomarker = false;
+    @JsonProperty("EXPORT_NR")
+    private Integer exportNr = 1;
     @JsonIgnore
     private String note;
     @JsonIgnore
