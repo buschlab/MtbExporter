@@ -77,6 +77,18 @@ public final class CsvExporter {
                         case "48005-3":
                             a.setpHgvs(oc.getValueCodeableConcept().getCodingFirstRep().getCode());
                             break;
+                        case "62378-5":
+                            switch (oc.getValueCodeableConcept().getCodingFirstRep().getCode()) {
+                                case "LA14033-7":
+                                    a.setpHgvs("Amplifikation");
+                                    break;
+                                case "LA14034-5":
+                                    a.setpHgvs("Deletion");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
                         default:
                             break;
                     }
