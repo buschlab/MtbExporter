@@ -165,8 +165,14 @@ public final class CsvExporter {
             bef.setNote(String.join("<br>", note));
             List<String> pmids = new ArrayList<>();
             o.getExtensionsByUrl(RELATEDARTIFACT_URI).forEach(e -> {
-                pmids.add(((RelatedArtifact) e.getValue()).getUrl()
-                    .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", ""));
+                String pmid = "";
+                if ("https://www.ncbi.nlm.nih.gov/pubmed/-1".equals(((RelatedArtifact) e.getValue()).getUrl())) {
+                    pmid = ((RelatedArtifact) e.getValue()).getCitation();
+                } else {
+                    pmid = ((RelatedArtifact) e.getValue()).getUrl()
+                    .replaceFirst("https://www.ncbi.nlm.nih.gov/pubmed/", "");
+                }
+                pmids.add(pmid);
             });
             pmids.remove("-1");
             bef.setPubmedIds(String.join(", ", pmids));
