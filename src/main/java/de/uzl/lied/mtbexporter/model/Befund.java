@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTEMPFEHLUNG_DIAGNOSTIK",
     "TXTHUMANGEN_BERATUNG_EMPF",
     "TXTREBIOPSIE_EMPFOHLEN",
-    "TXTTUMORBOARDBESCHLUSS"
+    "TXTTUMORBOARDBESCHLUSS",
+    "TXTTUMORBOARDBESCHLUSS2"
 })
 public class Befund {
 
@@ -54,7 +55,9 @@ public class Befund {
     @JsonProperty("TXTREBIOPSIE_EMPFOHLEN")
     private String rebiopsieEmpfohlenText = "nein";
     @JsonProperty("TXTTUMORBOARDBESCHLUSS")
-    private String tumorboardbeschluss;
+    private String tumorboardbeschluss = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS2")
+    private String tumorboardbeschluss2 = "";
 
     /**
      * @return the pid
@@ -264,6 +267,20 @@ public class Befund {
      */
     public void setTumorboardbeschluss(String tumorboardbeschluss) {
         this.tumorboardbeschluss = tumorboardbeschluss;
+    }
+
+    /**
+     * @return the tumorboardbeschluss2
+     */
+    public String getTumorboardbeschluss2() {
+        return tumorboardbeschluss2;
+    }
+
+    /**
+     * @param tumorboardbeschluss2 the tumorboardbeschluss2 to set
+     */
+    public void setTumorboardbeschluss2(String tumorboardbeschluss2) {
+        this.tumorboardbeschluss2 = tumorboardbeschluss2;
     }
 
 }

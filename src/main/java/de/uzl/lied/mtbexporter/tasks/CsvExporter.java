@@ -24,6 +24,7 @@ public final class CsvExporter {
 
     private static final int PERCENT = 100;
     private static final int ASL = 4;
+    private static final int CHARLIMIT = 3980;
     private static final String RELATEDARTIFACT_URI =
         "http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/CGRelatedArtifact";
     private static final String FOLLOWUP_URI =
@@ -159,7 +160,8 @@ public final class CsvExporter {
                                 .replace("_", " "));
                         break;
                     case "51963-7":
-                        bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay());
+                        bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay()
+                                .replace(";", ","));
                         targets.incrementAndGet();
                         break;
                     case "associated-therapy":
@@ -225,7 +227,14 @@ public final class CsvExporter {
                     .append("<br><br>");
         }
         // befund.setTumorboardbeschluss(beschluss.toString());
-        befund.setTumorboardbeschluss(report.getConclusion().replace("\n", "<br>").replace(";", ","));
+        String beschlusstext = report.getConclusion().replace("\n", "<br>").replace(";", ",");
+        if (beschlusstext.length() > CHARLIMIT) {
+            befund.setTumorboardbeschluss(beschlusstext.substring(0, CHARLIMIT - 1));
+            befund.setTumorboardbeschluss2(beschlusstext.substring(CHARLIMIT - 1));
+        } else {
+            befund.setTumorboardbeschluss(beschlusstext);
+        }
+
 
         befund.setEmpfTherap(i.get() > 0);
         befund.setEmpfTherapKeinTarget(targets.get() == 0);
