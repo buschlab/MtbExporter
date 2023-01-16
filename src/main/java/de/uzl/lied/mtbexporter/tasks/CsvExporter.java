@@ -160,6 +160,9 @@ public final class CsvExporter {
                                 .replace("_", " "));
                         break;
                     case "51963-7":
+                        if (oc.getValueCodeableConcept().getCodingFirstRep().getDisplay() == null) {
+                            break;
+                        }
                         bef.setWirkstoff(oc.getValueCodeableConcept().getCodingFirstRep().getDisplay()
                                 .replace(";", ","));
                         targets.incrementAndGet();
