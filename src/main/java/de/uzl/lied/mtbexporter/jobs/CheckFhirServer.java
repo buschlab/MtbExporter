@@ -40,6 +40,9 @@ public class CheckFhirServer extends TimerTask {
     @Override
     public void run() {
 
+        cdrClient.getFhirContext().getRestfulClientFactory().setConnectTimeout(120 * 1000);
+        cdrClient.getFhirContext().getRestfulClientFactory().setSocketTimeout(120 * 1000);
+
         long state = 0;
         try {
             InputStream stateStream = new FileInputStream(".state");
