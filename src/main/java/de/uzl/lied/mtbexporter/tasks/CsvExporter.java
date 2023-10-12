@@ -170,7 +170,8 @@ public final class CsvExporter {
                     case "associated-therapy":
                         bef.setTherapie("Klinische Studie");
                         List<String> studies = new ArrayList<>();
-                        oc.getValueCodeableConcept().getCoding().forEach(c -> studies.add(c.getCode()));
+                        oc.getValueCodeableConcept().getCoding()
+                                .forEach(c -> studies.add(c.getCode() == null ? c.getDisplay() : c.getCode()));
                         bef.setRegistrierungsnummer(String.join(", ", studies));
                         break;
                     default:
