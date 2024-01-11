@@ -1,11 +1,13 @@
 package de.uzl.lied.mtbexporter.tasks;
 
+import com.google.common.base.Splitter;
 import de.uzl.lied.mtbexporter.model.BefTherapieoptionen;
 import de.uzl.lied.mtbexporter.model.Befund;
 import de.uzl.lied.mtbexporter.model.internal.Alteration;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.hl7.fhir.r4.model.DiagnosticReport;
@@ -44,7 +46,7 @@ public final class CsvExporter {
      * @param beflist List of therapy options as a partial result
      * @return FHIR resource exported to a JVM Befund object
      */
-    @SuppressWarnings({ "checkstyle:MethodLength" })
+    @SuppressWarnings({ "checkstyle:MethodLength", "checkstyle:MagicNumber" })
     public static Befund exportDiagnosticReport(DiagnosticReport report, List<BefTherapieoptionen> beflist) {
         Befund befund = new Befund();
         List<BefTherapieoptionen> beflistPatient = new ArrayList<>();
@@ -232,12 +234,28 @@ public final class CsvExporter {
         }
         // befund.setTumorboardbeschluss(beschluss.toString());
         String beschlusstext = report.getConclusion().replace("\n", "<br>").replace(";", ",");
-        if (beschlusstext.length() > CHARLIMIT) {
-            befund.setTumorboardbeschluss(beschlusstext.substring(0, CHARLIMIT - 1));
-            befund.setTumorboardbeschluss2(beschlusstext.substring(CHARLIMIT - 1));
-        } else {
-            befund.setTumorboardbeschluss(beschlusstext);
+        // if (beschlusstext.length() > CHARLIMIT) {
+        //     befund.setTumorboardbeschluss(beschlusstext.substring(0, CHARLIMIT - 1));
+        //     befund.setTumorboardbeschluss2(beschlusstext.substring(CHARLIMIT - 1));
+        // } else {
+        //     befund.setTumorboardbeschluss(beschlusstext);
+        // }
+        String[] beschlussArray = new String[8];
+        Arrays.fill(beschlussArray, "");
+        Iterator<String> splitBeschluss = Splitter.fixedLength(CHARLIMIT).split(beschlusstext).iterator();
+        int splitnr = 0;
+        while (splitBeschluss.hasNext()) {
+            beschlussArray[splitnr] = splitBeschluss.next();
+            splitnr++;
         }
+        befund.setTumorboardbeschluss(beschlussArray[0]);
+        befund.setTumorboardbeschluss2(beschlussArray[1]);
+        befund.setTumorboardbeschluss3(beschlussArray[2]);
+        befund.setTumorboardbeschluss4(beschlussArray[3]);
+        befund.setTumorboardbeschluss5(beschlussArray[4]);
+        befund.setTumorboardbeschluss6(beschlussArray[5]);
+        befund.setTumorboardbeschluss7(beschlussArray[6]);
+        befund.setTumorboardbeschluss8(beschlussArray[7]);
 
 
         befund.setEmpfTherap(i.get() > 0);

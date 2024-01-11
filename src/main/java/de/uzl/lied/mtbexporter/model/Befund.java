@@ -22,7 +22,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTHUMANGEN_BERATUNG_EMPF",
     "TXTREBIOPSIE_EMPFOHLEN",
     "TXTTUMORBOARDBESCHLUSS",
-    "TXTTUMORBOARDBESCHLUSS2"
+    "TXTTUMORBOARDBESCHLUSS2",
+    "TXTTUMORBOARDBESCHLUSS3",
+    "TXTTUMORBOARDBESCHLUSS4",
+    "TXTTUMORBOARDBESCHLUSS5",
+    "TXTTUMORBOARDBESCHLUSS6",
+    "TXTTUMORBOARDBESCHLUSS7",
+    "TXTTUMORBOARDBESCHLUSS8"
 })
 public class Befund {
 
@@ -58,6 +64,18 @@ public class Befund {
     private String tumorboardbeschluss = "";
     @JsonProperty("TXTTUMORBOARDBESCHLUSS2")
     private String tumorboardbeschluss2 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS3")
+    private String tumorboardbeschluss3 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS4")
+    private String tumorboardbeschluss4 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS5")
+    private String tumorboardbeschluss5 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS6")
+    private String tumorboardbeschluss6 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS7")
+    private String tumorboardbeschluss7 = "";
+    @JsonProperty("TXTTUMORBOARDBESCHLUSS8")
+    private String tumorboardbeschluss8 = "";
 
     /**
      * @return the pid
@@ -281,6 +299,90 @@ public class Befund {
      */
     public void setTumorboardbeschluss2(String tumorboardbeschluss2) {
         this.tumorboardbeschluss2 = tumorboardbeschluss2;
+    }
+
+    /**
+     * @return the tumorboardbeschluss3
+     */
+    public String getTumorboardbeschluss3() {
+        return tumorboardbeschluss3;
+    }
+
+    /**
+     * @param tumorboardbeschluss3 the tumorboardbeschluss3 to set
+     */
+    public void setTumorboardbeschluss3(String tumorboardbeschluss3) {
+        this.tumorboardbeschluss3 = tumorboardbeschluss3;
+    }
+
+    /**
+     * @return the tumorboardbeschluss4
+     */
+    public String getTumorboardbeschluss4() {
+        return tumorboardbeschluss4;
+    }
+
+    /**
+     * @param tumorboardbeschluss4 the tumorboardbeschluss4 to set
+     */
+    public void setTumorboardbeschluss4(String tumorboardbeschluss4) {
+        this.tumorboardbeschluss4 = tumorboardbeschluss4;
+    }
+
+    /**
+     * @return the tumorboardbeschluss5
+     */
+    public String getTumorboardbeschluss5() {
+        return tumorboardbeschluss5;
+    }
+
+    /**
+     * @param tumorboardbeschluss5 the tumorboardbeschluss5 to set
+     */
+    public void setTumorboardbeschluss5(String tumorboardbeschluss5) {
+        this.tumorboardbeschluss5 = tumorboardbeschluss5;
+    }
+
+    /**
+     * @return the tumorboardbeschluss6
+     */
+    public String getTumorboardbeschluss6() {
+        return tumorboardbeschluss6;
+    }
+
+    /**
+     * @param tumorboardbeschluss6 the tumorboardbeschluss6 to set
+     */
+    public void setTumorboardbeschluss6(String tumorboardbeschluss6) {
+        this.tumorboardbeschluss6 = tumorboardbeschluss6;
+    }
+
+    /**
+     * @return the tumorboardbeschluss7
+     */
+    public String getTumorboardbeschluss7() {
+        return tumorboardbeschluss7;
+    }
+
+    /**
+     * @param tumorboardbeschluss7 the tumorboardbeschluss7 to set
+     */
+    public void setTumorboardbeschluss7(String tumorboardbeschluss7) {
+        this.tumorboardbeschluss7 = tumorboardbeschluss7;
+    }
+
+    /**
+     * @return the tumorboardbeschluss8
+     */
+    public String getTumorboardbeschluss8() {
+        return tumorboardbeschluss8;
+    }
+
+    /**
+     * @param tumorboardbeschluss8 the tumorboardbeschluss8 to set
+     */
+    public void setTumorboardbeschluss8(String tumorboardbeschluss8) {
+        this.tumorboardbeschluss8 = tumorboardbeschluss8;
     }
 
 }
