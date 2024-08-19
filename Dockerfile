@@ -5,7 +5,6 @@ WORKDIR /mtbexporter
 
 RUN mvn install -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
 
-FROM gcr.io/distroless/java-base-debian12:latest
-
+FROM gcr.io/distroless/java21-debian12
 COPY --from=build /mtbexporter/target/mtbexporter-*-jar-with-dependencies.jar /app/mtbexporter.jar
-ENTRYPOINT ["java", "-jar", "/app/mtbexporter.jar"]
+CMD ["/app/mtbexporter.jar"]
