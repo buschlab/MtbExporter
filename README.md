@@ -3,14 +3,14 @@
 MtbExporter is a tool that exports therapy recommendations stored in FHIR using [FhirSpark](https://github.com/buschlab/fhirspark) to a csv based file format.
 It is tested and optimized to work with the core components of the MIRACUM UseCase 3 *Support for Molecular Tumor Boards*, which are available here:
 
-- [MIRACUM-cBioportal](https://github.com/buschlab/MIRACUM-cBioPortal)
+- [MTB-cbioportal](https://github.com/buschlab/MTB-cbioportal)
 - [MIRACUM-Pipe](https://github.com/AG-Boerries/MIRACUM-Pipe) (v3.0.0 and upwards)
 - [MtbImporter](https://github.com/buschlab/MtbImporter)
 
 The data model used for the csv here is just examplary. Your individual environment may vary.
 
 ## Get started
-
+W
 To get started, copy the `settings.yaml.example` file to `settings.yaml`. This avoids future conflicts within the git tree. You need to tailor the configuration parameters to fit your environment first. The following configuration parameters are available:
 
 | Parameter                  | Description                                                         |
@@ -24,9 +24,10 @@ Now MtbExporter can be started. Now it will regularly (based on your cron interv
 
 ## Authors
 
-- [Niklas Reimer](https://www.systembiologie.uni-luebeck.de/team/alumni/niklas-reimer/) | Group for Medical Systems Biology, Lübeck Institute of Experimental Dermatology, 
-Universität zu Lübeck, Germany
-  - [@niklas_reimer](https://twitter.com/niklas_reimer)
+- [Niklas Reimer](https://medsysbio-luebeck.de/team/niklas-reimer/)
+  - Group for Medical Systems Biology, Lübeck Institute of Experimental Dermatology, Universität zu Lübeck, Germany
+  - Medical Data Integration Center (MeDIC), University Hospital Schleswig-Holstein, Germany
+  - [@niklas@toot.backbord.net ](https://toot.backbord.net/@niklas)
   - [n.reimer@uni-luebeck.de](mailto:n.reimer@uni-luebeck.de)
 
 ## License
