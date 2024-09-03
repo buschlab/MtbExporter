@@ -14,11 +14,6 @@ import de.uzl.lied.mtbexporter.model.BefTherapieoptionen;
 import de.uzl.lied.mtbexporter.model.Befund;
 import de.uzl.lied.mtbexporter.settings.Settings;
 import de.uzl.lied.mtbexporter.tasks.CsvExporter;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.DiagnosticReport;
-import org.hl7.fhir.r4.model.Observation;
-import org.tinylog.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -28,6 +23,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.Observation;
+import org.tinylog.Logger;
 
 /**
  * Job that is triggerd to check the FHIR server and start the export.

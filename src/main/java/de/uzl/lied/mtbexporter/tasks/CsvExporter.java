@@ -4,6 +4,12 @@ import com.google.common.base.Splitter;
 import de.uzl.lied.mtbexporter.model.BefTherapieoptionen;
 import de.uzl.lied.mtbexporter.model.Befund;
 import de.uzl.lied.mtbexporter.model.internal.Alteration;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.hl7.fhir.r4.model.DiagnosticReport;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Patient;
@@ -12,13 +18,6 @@ import org.hl7.fhir.r4.model.RelatedArtifact;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Exporter for FHIR IG Genomics-Reporting to UKSH Orbis TKONF MTB form.
