@@ -3,12 +3,11 @@ package de.uzl.lied.mtbexporter;
 import de.uzl.lied.mtbexporter.jobs.CheckFhirServer;
 import de.uzl.lied.mtbexporter.settings.ConfigurationLoader;
 import de.uzl.lied.mtbexporter.settings.Settings;
-import org.tinylog.Logger;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
+import org.tinylog.Logger;
 
 /**
  * Regularily queries FHIR server for new MTB therapie recommendations and
