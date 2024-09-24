@@ -173,7 +173,11 @@ public final class CsvExporter {
                         bef.setTherapie("Klinische Studie");
                         List<String> studies = new ArrayList<>();
                         oc.getValueCodeableConcept().getCoding()
-                                .forEach(c -> studies.add(c.getCode() == null ? c.getDisplay() : c.getCode()));
+                                .forEach(c -> {
+                                    String studyId = c.getCode() == null ? c.getDisplay() : c.getCode();
+                                    studyId = studyId.replace("Could not fetch trial for: ", "");
+                                    studies.add(studyId);
+                                });
                         bef.setRegistrierungsnummer(String.join(", ", studies));
                         break;
                     default:
