@@ -101,6 +101,7 @@ public final class CsvExporter {
             i.incrementAndGet();
             BefTherapieoptionen bef = new BefTherapieoptionen();
             beflist.add(bef);
+            bef.setExportNr(Integer.valueOf(report.getMeta().getVersionId()));
             beflistPatient.add(bef);
             if (report.hasBasedOn()) {
                 bef.setAuftragsnummerBef(

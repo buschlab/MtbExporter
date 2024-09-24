@@ -323,4 +323,18 @@ public class BefTherapieoptionen {
         this.evidenzlevelNichtBiomarker = evidenzlevelNichtBiomarker;
     }
 
+    /**
+     * @return the export nr
+     */
+    public Integer getExportNr() {
+        return exportNr;
+    }
+
+    /**
+     * @param exportNr the export nr to set
+     */
+    public void setExportNr(Integer exportNr) {
+        this.exportNr = exportNr;
+    }
+
 }
