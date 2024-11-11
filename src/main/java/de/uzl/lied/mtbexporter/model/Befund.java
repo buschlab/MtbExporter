@@ -28,7 +28,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TXTTUMORBOARDBESCHLUSS5",
     "TXTTUMORBOARDBESCHLUSS6",
     "TXTTUMORBOARDBESCHLUSS7",
-    "TXTTUMORBOARDBESCHLUSS8"
+    "TXTTUMORBOARDBESCHLUSS8",
+    "CBXDIAGNOSTIKART_WES",
+    "CBXDIAGNOSTIKART_WGS",
+    "CBXDIAGNOSTIKART_RNA_SEQ",
+    "CBXDIAGNOSTIKART_ANDERE"
 })
 public class Befund {
 
@@ -76,6 +80,14 @@ public class Befund {
     private String tumorboardbeschluss7 = "";
     @JsonProperty("TXTTUMORBOARDBESCHLUSS8")
     private String tumorboardbeschluss8 = "";
+    @JsonProperty("CBXDIAGNOSTIKART_WES")
+    private Boolean diagnostikartWes = false;
+    @JsonProperty("CBXDIAGNOSTIKART_WGS")
+    private Boolean diagnostikartWgs = false;
+    @JsonProperty("CBXDIAGNOSTIKART_RNA_SEQ")
+    private Boolean diagnostikartRnaSeq = false;
+    @JsonProperty("CBXDIAGNOSTIKART_ANDERE")
+    private Boolean diagnostikartAndere = false;
 
     /**
      * @return the pid
@@ -383,6 +395,62 @@ public class Befund {
      */
     public void setTumorboardbeschluss8(String tumorboardbeschluss8) {
         this.tumorboardbeschluss8 = tumorboardbeschluss8;
+    }
+
+    /**
+     * @return the diagnostikartWes
+     */
+    public Boolean getDiagnostikartWes() {
+        return diagnostikartWes;
+    }
+
+    /**
+     * @param diagnostikartWes the diagnostikartWes to set
+     */
+    public void setDiagnostikartWes(Boolean diagnostikartWes) {
+        this.diagnostikartWes = diagnostikartWes;
+    }
+
+    /**
+     * @return the diagnostikartWgs
+     */
+    public Boolean getDiagnostikartWgs() {
+        return diagnostikartWgs;
+    }
+
+    /**
+     * @param diagnostikartWgs the diagnostikartWgs to set
+     */
+    public void setDiagnostikartWgs(Boolean diagnostikartWgs) {
+        this.diagnostikartWgs = diagnostikartWgs;
+    }
+
+    /**
+     * @return the diagnostikartRnaSeq
+     */
+    public Boolean getDiagnostikartRnaSeq() {
+        return diagnostikartRnaSeq;
+    }
+
+    /**
+     * @param diagnostikartRnaSeq the diagnostikartRnaSeq to set
+     */
+    public void setDiagnostikartRnaSeq(Boolean diagnostikartRnaSeq) {
+        this.diagnostikartRnaSeq = diagnostikartRnaSeq;
+    }
+
+    /**
+     * @return the diagnostikartAndere
+     */
+    public Boolean getDiagnostikartAndere() {
+        return diagnostikartAndere;
+    }
+
+    /**
+     * @param diagnostikartAndere the diagnostikartAndere to set
+     */
+    public void setDiagnostikartAndere(Boolean diagnostikartAndere) {
+        this.diagnostikartAndere = diagnostikartAndere;
     }
 
 }
