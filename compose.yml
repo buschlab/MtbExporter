@@ -1,0 +1,18 @@
+services:
+  mtbexporter:
+    restart: unless-stopped
+    build: ./
+    image: ghcr.io/buschlab/mtbexporter:latest
+    command:
+      - /app/mtbexporter.jar
+      - /app/settings.yaml
+    volumes:
+      - "./settings.yaml:/app/settings.yaml:z"
+      - "./output:/output:z"
+      - "./.state:/.state:z"
+    networks:
+      - mtb-cbioportal_cbioportal_net
+
+networks:
+  mtb-cbioportal_cbioportal_net:
+    external: true
